@@ -1,0 +1,6 @@
+<ips:template parameters="$contentURL, $lang, $names" />
+{{if settings.reputation_point_types == 'like'}}
+<a href='{$contentURL}' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='{lang="like_log_title"}' title='{lang="see_who_liked"}' data-ipsTooltip data-ipsTooltip-label='{$names|doubleencode}' data-ipsTooltip-json data-ipsTooltip-safe>{$lang}</a>
+{{else}}
+<a href='{$contentURL}' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='{lang="rep_log_title"}' title='{lang="see_who_repped"}' data-ipsTooltip>{$lang}</a>
+{{endif}}

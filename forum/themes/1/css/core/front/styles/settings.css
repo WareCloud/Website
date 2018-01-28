@@ -1,0 +1,10 @@
+#elSettingsTabs > .ipsColumns {
+	min-height: 250px;
+}
+
+html[dir="ltr"] #elSettingsTabs > .ipsColumns > .ipsColumn_wide {
+	padding-right: 0;
+}
+html[dir="rtl"] #elSettingsTabs > .ipsColumns > .ipsColumn_wide {
+	padding-left: 0;
+}

@@ -1,0 +1,12 @@
+<ips:template parameters="$log" />
+<div class="ipsSpacer_bottom">
+	{{if $log->exception_class}}
+		<code>{$log->exception_class}::{$log->exception_code}</code><br>
+		<br>
+	{{endif}}
+	<textarea rows="15" style="font-family: monospace;">{$log->message}</textarea>
+</div>
+<div class="ipsSpacer_bottom">
+	<h3 class="ipsType_minorHeading">{lang="log_backtrace"}</h3>
+	<textarea rows="8" style="font-family: monospace;">{$log->backtrace}</textarea>
+</div>

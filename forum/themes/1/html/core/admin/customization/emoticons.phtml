@@ -1,0 +1,55 @@
+<ips:template parameters="$sets" />
+<form accept-charset='utf-8' action="{url="app=core&module=editor&controller=emoticons&do=edit"}" method="post" data-controller="core.admin.customization.emoticons" id="emoticonsManagement">
+	<ul class='ipsList_reset' data-role="setList">
+		{{foreach $sets as $setKey => $emoticons}}
+			<li data-emoticonSet="{$setKey}">
+				<div>
+					<h2 class='acpBlock_title acpBlock_titleDark ipsClear'>
+						<div class='ipsPos_right ipsType_blendLinks'>
+							<a href="{url="app=core&module=editor&controller=emoticons&do=editTitle&key=$setKey"}" data-ipsDialog data-ipsDialog-title="{lang="emoticons_edit_groupname"}" data-ipsTooltip title="{lang="emoticons_edit_groupname"}"><i class='fa fa-edit'></i></a>
+							{{if \IPS\Member::loggedIn()->hasAcpRestriction( 'core', 'editor', 'emoticons_delete' )}}
+								&nbsp;
+								<a href="{url="app=core&module=editor&controller=emoticons&do=deleteSet&key=$setKey"}" data-confirm data-confirmsubmessage="{lang="emoticons_delete_set_confirm"}" data-ipsTooltip title="{lang="emoticons_delete_set"}"><i class='fa fa-times-circle'></i></a>
+							{{endif}}
+						</div>
+						{lang="$setKey"}
+					</h2>
+					<ul class='ipsList_reset ipsGrid ipsGrid_collapsePhone ipsPad ipsAreaBackground_light' data-role="emoticonsList" data-emoticonGroup="{$setKey}" data-ipsGrid data-ipsGrid-equalHeights='all' data-ipsGrid-minItemSize='175' data-ipsGrid-maxItemSize='300'>
+						{{foreach $emoticons as $emo}}
+							<li id="emo_{$emo['id']}" data-emoticonID='{$emo['id']}' class='ipsGrid_span3 ipsAreaBackground_reset'>
+								<div class='ipsBox cEmoticons_box'>
+									<div class='ipsPad_half'>
+										{{if \IPS\Member::loggedIn()->hasAcpRestriction( 'core', 'editor', 'emoticons_delete' )}}
+											<a href='{url="app=core&module=editor&controller=emoticons&do=delete&id="}{$emo['id']}' data-delete data-delete-warning="{lang="emoticons_delete_confirm"}" data-deleterow="#emo_{$emo['id']}">&times;</a>
+										{{endif}}
+										{{if $emo['image_2x']}}
+											<img src="{file="$emo['image']" extension="core_Emoticons"}" srcset="{file="$emo['image_2x']" extension="core_Emoticons"} 2x" alt='' class='ipsImage' {{if $emo['width'] AND $emo['width']}} width='{$emo['width']}' height='{$emo['height']}'{{endif}}>
+										{{else}}
+											<img src="{file="$emo['image']" extension="core_Emoticons"}" alt='' class='ipsImage'>
+										{{endif}}
+									</div>						
+									<div class='cEmoticons_input ipsPad_half'>
+										{{if $emo['image_2x']}}
+											<span class='cEmoticons_hd ipsType_small ipsType_light' title='{lang="emoticon_hd"}' data-ipsTooltip><i class='fa fa-check'></i> HD</span>
+										{{endif}}
+										<input type="hidden" name="emo[{$emo['id']}][set]" value="{$setKey}" data-emoticon-id="{$emo['id']}">
+										<input value="{$emo['typed']}" name="emo[{$emo['id']}][name]">
+										<noscript>
+											<br>
+											<input type="number" value="{$emo['emo_position']}" name="emo[{$emo['id']}][order]">
+										</noscript>
+									</div>
+								</div>
+							</li>
+						{{endforeach}}
+					</ul>
+				</div>
+			</li>
+		{{endforeach}}
+	</ul>
+	{{if \IPS\Member::loggedIn()->hasAcpRestriction( 'core', 'editor', 'emoticons_edit' )}}
+		<div class="ipsAreaBackground ipsClear ipsClearfix ipsPad ipsType_center">		
+			<button class='ipsButton ipsButton_primary'>{lang="save"}</button>
+		</div>
+	{{endif}}
+</form>

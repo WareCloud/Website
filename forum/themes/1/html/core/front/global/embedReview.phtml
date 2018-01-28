@@ -1,0 +1,30 @@
+<ips:template parameters="$item, $review, $url, $image=NULL" />
+<div class='ipsEmbedded {{if $image}}ipsEmbedded_withImage{{endif}}'>
+	<div class='ipsEmbedded_headerArea'>
+		<h4 class='ipsType_reset ipsType_normal ipsTruncate ipsTruncate_line'>
+			<i class='fa fa-{$review::$icon}' data-ipsTooltip title='{lang="$review::$title"}'></i> &nbsp;
+			<a href='{$url}' target='_top'>
+				{lang="embed_review_of" sprintf="$item->mapped('title')"}
+			</a>
+		</h4>
+	</div>
+	<div class='ipsEmbedded_content'>
+		<div class='ipsPhotoPanel ipsPhotoPanel_mini ipsClearfix ipsType_medium'>
+			{template="userPhoto" group="global" app="core" params="$review->author(), 'mini', NULL, '', FALSE"}
+			<div>
+				<span class='ipsType_light ipsType_small'>{lang="byline" sprintf="$review->author()->name"} {datetime="$review->mapped('date')"}</span>
+				{template="rating" app="core" params="'small', $review->mapped('rating')" group="global"}
+				<div data-ipsTruncate data-ipsTruncate-size='1 lines' data-ipsTruncate-type='remove'>
+					{$review->truncated( TRUE )|raw}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{if $image}}
+		<div style='background-image: url( "{expression="str_replace( array( '(', ')' ), array( '\(', '\)' ), $image->url )"}" );' class='ipsEmbedded_image'>
+			<a href='{$url}' target='_top'>
+				<img src='{$image->url}'>
+			</a>
+		</div>
+	{{endif}}
+</div>

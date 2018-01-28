@@ -1,0 +1,38 @@
+<ips:template parameters="$status, $comment" />
+<div class="ipsComment_content ipsFaded_withHover" data-controller="core.front.core.comment">
+	<p class="ipsComment_author ipsType_normal" itemprop="creator" itemscope="" itemtype="http://schema.org/Person">
+		<strong>{template="userLink" app="core" group="global" location="front" params="$comment->author()"}</strong>
+		{{if $comment->hidden()}}
+			<span class="ipsBadge ipsBadge_icon ipsBadge_small ipsBadge_warning" data-ipsTooltip title='{lang="hidden"}'><i class='fa fa-eye-slash'></i></span>
+		{{endif}}
+	</p>
+	<div data-role="commentContent" class='ipsType_richText ipsType_medium ipsContained' data-controller='core.front.core.lightboxedImages'>
+		{$comment->content|raw}
+	</div>
+	<ul class="ipsList_inline ipsType_medium cStatusTools">
+		<li class="ipsType_light"><a href='{$comment->url()}' class='ipsType_blendLinks'>{datetime="$comment->date"}</a></li>
+		{{if $comment instanceof \IPS\Content\Reputation and settings.reputation_enabled and ( $comment->reputation() or ( $comment->canGiveReputation( 1 ) or $comment->canGiveReputation( -1 ) ) )}}
+			<li>{template="reputationMini" group="global" app="core" params="$comment->reputation(), $comment->canGiveReputation( 1 ), $comment->canGiveReputation( -1 ), $comment->url('showRep'), $comment->url('rep')"}</li>
+		{{endif}}
+		{{if $comment->canDelete() || ( $comment instanceof \IPS\Content\Hideable && ( !$comment->hidden() and $comment->canHide() ) || ( $comment->hidden() and $comment->canUnhide() ) ) }}
+			<li>
+				<a href='#elComment_{$comment->id}_menu' id='elComment_{$comment->id}' data-ipsMenu data-ipsMenu-activeClass='ipsFaded_cancel' class='ipsFaded ipsFaded_more'>{lang="options"} <i class='fa fa-caret-down'></i></a>
+				<ul class='ipsMenu ipsMenu_narrow ipsHide' id='elComment_{$comment->id}_menu'>
+					{{if $comment instanceof \IPS\Content\Hideable}}
+						{{if !$comment->hidden() and $comment->canHide()}}
+							<li class='ipsMenu_item'><a href='{$comment->url('moderate')->setQueryString( 'action', 'hide' )->csrf()}'>{lang="hide"}</a></li>
+						{{elseif $comment->hidden() and $comment->canUnhide()}}
+							<li class='ipsMenu_item'><a href='{$comment->url('moderate')->setQueryString( 'action', 'unhide' )->csrf()}'>{lang="unhide"}</a></li>
+						{{endif}}
+					{{endif}}
+					{{if $comment->canDelete()}}
+						<li class='ipsMenu_item'><a data-confirm href='{$comment->url('moderate')->setQueryString( 'action', 'delete' )->csrf()}' data-action='deleteComment' data-updateOnDelete="#commentCount">{lang="delete"}</a></li>
+					{{endif}}
+				</ul>
+			</li>
+		{{endif}}
+		{{if $comment instanceof \IPS\Content\ReportCenter and !\IPS\Member::loggedIn()->group['gbw_no_report'] and !$comment->hidden() }}
+			<li><a href='{$comment->url('report')}' data-ipsDialog data-ipsDialog-size='medium' data-ipsDialog-title="{lang="report"}" data-action='reportComment' title='{lang="report_content"}' class='ipsFaded ipsFaded_more'>{lang="status_report"}</a></li>
+		{{endif}}
+	</ul>
+</div>

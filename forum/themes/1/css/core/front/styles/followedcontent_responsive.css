@@ -1,0 +1,17 @@
+/* PHONES */
+@media screen and (max-width: 767px) {
+	.cFollowedContent .ipsFollow {
+		margin-top: 10px;
+	}
+
+	html[dir="ltr"] .cFollowedContent .ipsDataItem_modCheck {
+		right: 10px;
+		left: auto;
+		top: 15px;
+	}
+	html[dir="rtl"] .cFollowedContent .ipsDataItem_modCheck {
+		left: 10px;
+		right: auto;
+		top: 15px;
+	}
+}

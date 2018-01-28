@@ -1,0 +1,2 @@
+<ips:template parameters="$url, $newWindow=TRUE, $title=NULL, $wordbreak=TRUE" />
+<a href='{$url}'{{if $newWindow === TRUE}} target='_blank'{{endif}}>{{if $wordbreak}}{wordbreak="$title ?: $url"}{{else}}{{if $title}}{$title}{{else}}{$url}{{endif}}{{endif}}</a>

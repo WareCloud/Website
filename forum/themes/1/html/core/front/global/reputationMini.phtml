@@ -1,0 +1,35 @@
+<ips:template parameters="$repCount, $canRepUp, $canRepDown, $showRepUrl, $giveRepUrl" />
+<div data-controller='core.front.core.reputation' class='ipsRep_mini'>
+	{{if settings.reputation_point_types == 'like'}}
+		<div class='ipsLikeRep'>
+			{{if member.group['gbw_view_reps']}}
+				<a href='{$showRepUrl}' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='{lang="like_log_title"}' data-ipsTooltip class='ipsReputation_count {{if $repCount == 0}}ipsType_light{{else}}ipsType_blendLinks{{endif}}'><i class='fa fa-heart ipsType_small'></i> {$repCount}</a>
+			{{else}}
+				<span class='ipsReputation_count {{if $repCount < 0}}ipsType_negative{{elseif $repCount > 0}}ipsType_positive{{else}}ipsType_neutral{{endif}}'><i class='fa {{if $repCount < 0}}fa-minus-circle{{elseif $repCount > 0}}fa-plus-circle{{else}}fa-circle{{endif}} ipsType_small'></i> {$repCount}</span>
+			{{endif}}
+			{{if $canRepUp}}
+				&nbsp;&nbsp;<a href='{$giveRepUrl->setQueryString( array( 'rep' => 1, 'mini' => 1 ) )->csrf()}' data-action="giveReputation">{lang="like"}</a>
+			{{endif}}
+			{{if $canRepDown}}
+				&nbsp;&nbsp;<a href='{$giveRepUrl->setQueryString( array( 'rep' => -1, 'mini' => 1 ) )->csrf()}' data-action="giveReputation">{lang="unlike"}</a>
+			{{endif}}
+		</div>
+	{{else}}
+		<div class='ipsLikeRep'>
+			{{if $canRepUp}}
+				<a href='{$giveRepUrl->setQueryString( array( 'rep' => 1, 'mini' => 1 ) )->csrf()}' data-action="giveReputation" class='ipsButton ipsButton_rep ipsButton_repUp'><i class='fa fa-arrow-up'></i></a>
+			{{endif}}
+			{{if $canRepDown}}
+				<a href='{$giveRepUrl->setQueryString( array( 'rep' => -1, 'mini' => 1 ) )->csrf()}' data-action="giveReputation" class='ipsButton ipsButton_rep ipsButton_repDown'><i class='fa fa-arrow-down'></i></a>
+			{{endif}}
+			
+			{{if settings.reputation_show_content}}
+				{{if member.group['gbw_view_reps']}}
+					<a href='{$showRepUrl}' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='{lang="rep_log_title"}' title='{lang="see_who_repped"}' data-ipsTooltip class='ipsReputation_count {{if $repCount < 0}}ipsType_negative{{elseif $repCount > 0}}ipsType_positive{{else}}ipsType_neutral{{endif}}'><i class='fa {{if $repCount < 0}}fa-minus-circle{{elseif $repCount > 0}}fa-plus-circle{{else}}fa-circle{{endif}} ipsType_small'></i> {$repCount}</a>
+				{{else}}
+					<span class='ipsReputation_count {{if $repCount < 0}}ipsType_negative{{elseif $repCount > 0}}ipsType_positive{{else}}ipsType_neutral{{endif}}'><i class='fa {{if $repCount < 0}}fa-minus-circle{{elseif $repCount > 0}}fa-plus-circle{{else}}fa-circle{{endif}} ipsType_small'></i> {$repCount}</span>
+				{{endif}}
+			{{endif}}
+		</div>
+	{{endif}}
+</div>

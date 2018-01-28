@@ -1,0 +1,39 @@
+<ips:template parameters="$useMicrodata=TRUE, $position='top', $markRead=TRUE" />
+<nav class='ipsBreadcrumb ipsBreadcrumb_{$position} ipsFaded_withHover'>
+	{{if $position == 'bottom'}}
+		{template="rssMenu" group="global" app="core" params=""}
+	{{endif}}
+
+	<ul class='ipsList_inline ipsPos_right'>
+		{{$defaultStream = \IPS\core\Stream::defaultStream();}}
+		<li>
+			<a data-action="defaultStream" class='ipsType_light {{if ! $defaultStream}}ipsHide{{endif}}'  href='{{if $defaultStream}}{$defaultStream->url()}{{endif}}'><i class='icon-newspaper'></i> <span>{{if $defaultStream}}{$defaultStream->_title}{{endif}}</span></a>
+		</li>
+		{{if $markRead && \IPS\Member::loggedIn()->member_id}}
+			<li>
+				<a data-action="markSiteRead" class='ipsType_light' data-controller="core.front.core.markRead" href='{url="app=core&module=system&controller=markread" seoTemplate="mark_site_as_read" csrf="true"}' title='{lang="mark_site_read"}' data-ipsTooltip><i class='fa fa-check'></i> {lang="mark_site_read_button"}</a>
+			</li>
+		{{endif}}
+	</ul>
+
+	<ul {{if $useMicrodata}} itemscope itemtype="http://schema.org/BreadcrumbList"{{endif}}>
+		<li {{if $useMicrodata}} itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"{{endif}}>
+			<a href='{setting="base_url"}' {{if $useMicrodata}}itemprop="url"{{endif}}>
+				<span {{if $useMicrodata}}itemprop="name"{{endif}}><i class='fa fa-home'></i> {lang="home"}{{if count( \IPS\Output::i()->breadcrumb )}} <i class='fa fa-angle-right'></i>{{endif}}</span>
+			</a>
+		</li>
+		{{$i = 0;}}
+		{{foreach \IPS\Output::i()->breadcrumb as $k => $b}}
+			<li {{if $useMicrodata}} itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"{{endif}}>
+				{{if $b[0] === NULL}}
+					{$b[1]}
+				{{else}}
+					<a href='{$b[0]}' {{if $useMicrodata}}itemprop="url"{{endif}}>
+						<span {{if $useMicrodata}}itemprop="name"{{endif}}>{$b[1]} {{if ( $i + 1 != count( \IPS\Output::i()->breadcrumb ) )}}<i class='fa fa-angle-right'></i>{{endif}}</span>
+					</a>
+				{{endif}}
+			</li>
+			{{$i++;}}
+		{{endforeach}}
+	</ul>
+</nav>

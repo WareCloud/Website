@@ -1,0 +1,37 @@
+<ips:template parameters="$item, $comment, $url, $image=NULL" />
+<div class='ipsEmbedded {{if $image}}ipsEmbedded_withImage{{endif}}'>
+	<div class='ipsEmbedded_headerArea'>
+		<h4 class='ipsType_reset ipsType_normal ipsTruncate ipsTruncate_line'>
+			<i class='fa fa-{$comment::$icon}' data-ipsTooltip title='{lang="$comment::$title"}'></i> &nbsp;
+			<a href='{$url}' target='_top'>
+				{{if $item::$firstCommentRequired}}
+					{{if $comment->isFirst()}}
+						{$item->mapped('title')}
+					{{else}}
+						{lang="embed_reply_to" sprintf="$item->mapped('title')"}
+					{{endif}}
+				{{else}}
+					{lang="embed_comment_on" sprintf="$item->mapped('title')"}
+				{{endif}}
+			</a>
+		</h4>
+	</div>
+	<div class='ipsEmbedded_content'>
+		<div class='ipsPhotoPanel ipsPhotoPanel_mini ipsClearfix ipsType_medium'>
+			{template="userPhoto" group="global" app="core" params="$comment->author(), 'mini', NULL, '', FALSE"}
+			<div>
+				<span class='ipsType_light ipsType_small'>{lang="byline" sprintf="$comment->author()->name"} {datetime="$comment->mapped('date')"}</span>
+				<div data-ipsTruncate data-ipsTruncate-size='1 lines' data-ipsTruncate-type='remove'>
+					{$comment->truncated( TRUE )|raw}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{if $image}}
+		<div style='background-image: url( "{expression="str_replace( array( '(', ')' ), array( '\(', '\)' ), $image->url )"}" );' class='ipsEmbedded_image'>
+			<a href='{$url}' target='_top'>
+				<img src='{$image->url}'>
+			</a>
+		</div>
+	{{endif}}
+</div>

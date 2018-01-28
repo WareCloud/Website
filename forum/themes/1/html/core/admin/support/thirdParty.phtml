@@ -1,0 +1,36 @@
+<ips:template parameters="$id, $disabledApps, $disabledPlugins, $restoredDefaultTheme, $restoredEditor, $extra=''" />
+<div class="ipsPad">
+	<p class="ipsType_normal">{lang="third_party_stuff_disabled"}</p>
+	{{if $restoredDefaultTheme}}
+		<p class="ipsType_normal">{lang="try_default_theme"}</p>
+	{{endif}}
+	{{if $restoredEditor}}
+		<p class="ipsType_normal">{lang="default_editor_restored"}</p>
+	{{endif}}
+	{{if count( $disabledApps )}}
+		<p class="ipsType_normal">{lang="third_party_stuff_disabled_apps"}</p>
+		<ul>
+			{{foreach $disabledApps as $app}}
+				<li>{$app}</li>
+			{{endforeach}}
+		</ul>
+	{{endif}}
+	{{if count( $disabledPlugins )}}
+		<p class="ipsType_normal">{lang="third_party_stuff_disabled_plugins"}</p>
+		<ul>
+			{{foreach $disabledPlugins as $plugin}}
+				<li>{$plugin}</li>
+			{{endforeach}}
+		</ul>
+	{{endif}}
+	<p class="ipsType_normal">{lang="third_party_stuff_disabled_end"}</p>
+</div>
+<div class="ipsAreaBackground_light ipsClearfix ipsPad ipsType_center">
+	{{if count( $disabledApps )}}
+		<a href="{url="app=core&module=applications&controller=applications"}" target="_blank" class="ipsButton ipsButton_alternate">{lang="third_party_stuff_disabled_go_apps"}</a>
+	{{endif}}
+	{{if count( $disabledPlugins )}}
+		<a href="{url="app=core&module=applications&controller=plugins"}" target="_blank" class="ipsButton ipsButton_alternate">{lang="third_party_stuff_disabled_go_plugins"}</a>
+	{{endif}}
+	<a href="{url="app=core&module=support&controller=support&next={$id}&mr=MA=={$extra}"}" data-action="redirectContinue" class="ipsButton ipsButton_primary">{lang="problem_not_resolved"}</a>
+</div>

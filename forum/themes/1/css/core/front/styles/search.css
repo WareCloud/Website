@@ -1,0 +1,31 @@
+/* Search form */
+.cSearchMainBar .ipsType_huge.fa {
+	font-size: 36px;
+	line-height: 1;
+	margin-left: 7px;
+}
+
+.cSearchFiltersSubmit {
+	padding-top: 15px;
+}
+
+.cSearchPretendButton {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	display: inline;
+	background: transparent;
+}
+
+/* Member search results */
+.cStream_members .ipsStreamItem {
+	margin-top: 10px !important;
+}
+
+.cStream_members .ipsUserPhoto {
+	margin-top: -20px;
+}
+
+.cStream_members .ipsGrid_span6 {
+	margin-bottom: 0;
+}

@@ -1,0 +1,50 @@
+<ips:template parameters="$editorId, $width, $height, $maximumWidth, $maximumHeight, $float, $link, $ratio" />
+<div class=" ipsForm ipsForm_vertical" data-controller="core.global.editor.image" data-imageRatio='{$ratio}' data-editorid='{$editorId}'>
+	<form method='get' action='#'>
+		<div class='ipsPad'>
+			<div class="ipsFieldRow ipsFieldRow_fullWidth ipsFieldRow_primary">
+				<label class='ipsFieldRow_title'>{lang="image_link"}</label>
+				<input type="text" class="" value="{$link}" data-role="imageLink">
+			</div>
+
+			<div class="ipsFieldRow ipsFieldRow_primary">
+				<label class='ipsFieldRow_title'>{lang="image_size"}</label>
+				<input type="number" class="ipsField_short" value="{$width}" max="{$maximumWidth}" data-role="imageWidth"> &times; <input type="number" class="ipsField_short" value="{$height}" max="{$maximumHeight}" data-role="imageHeight"> {lang="px"}
+				<p class='ipsType_reset ipsSpacer_top ipsSpacer_half'>
+					<span class='ipsCustomInput' id='elEditorImageRatio'>
+						<input type='checkbox' name='image_aspect_ratio' checked>
+						<span></span>
+					</span> <label for='elEditorImageRatio'>{lang="image_aspect"}</label>
+				</p>
+				<br>
+				<span class="ipsType_warning" data-role="imageSizeWarning"></span>
+			</div>
+			<div class="ipsFieldRow ipsFieldRow_primary">
+				<label class='ipsFieldRow_title'>{lang="image_align"}</label>
+				<ul class='ipsButton_split ipsComposeArea_imageAlign'>
+					<li>
+						<input type='radio' name='image_align' value='left' id='image_align_left' data-role="imageAlign" {{if $float == 'left'}}checked{{endif}} class=''>
+						<label for='image_align_left' class='ipsButton ipsButton_fullWidth {{if $float == 'left'}}ipsButton_primary{{else}}ipsButton_light{{endif}} ipsButton_small'>
+							{lang="image_align_left"}
+						</label>
+					</li>
+					<li>
+						<input type='radio' name='image_align' value='' id='image_align_none' data-role="imageAlign" {{if $float != 'left' and $float != 'right'}}checked{{endif}} class=''>
+						<label for='image_align_none' class='ipsButton ipsButton_fullWidth {{if $float !== 'left' && $float !=='right'}}ipsButton_primary{{else}}ipsButton_light{{endif}} ipsButton_small'>
+							{lang="none"}
+						</label>
+					</li>
+					<li>
+						<input type='radio' name='image_align' value='right' id='image_align_right' data-role="imageAlign" {{if $float == 'right'}}checked{{endif}} class=''>
+						<label for='image_align_right' class='ipsButton ipsButton_fullWidth {{if $float == 'right'}}ipsButton_primary{{else}}ipsButton_light{{endif}} ipsButton_small'>
+							{lang="image_align_right"}
+						</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class='ipsPad ipsAreaBackground ipsFieldRow'>
+			<button type='submit' class="ipsButton ipsButton_primary ipsButton_large ipsButton_fullWidth">{lang="update"}</button>
+		</div>
+	</form>
+</div>

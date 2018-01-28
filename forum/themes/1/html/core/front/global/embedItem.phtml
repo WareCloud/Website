@@ -1,0 +1,45 @@
+<ips:template parameters="$item, $url, $image=NULL" />
+<div class='ipsEmbedded {{if $image}}ipsEmbedded_withImage{{endif}}'>
+	<div class='ipsEmbedded_headerArea'>
+		<h4 class='ipsType_reset ipsType_normal ipsTruncate ipsTruncate_line'><i class='fa fa-{$item::$icon}' data-ipsTooltip title='{lang="$item::$title"}'></i> &nbsp;<a href='{$url}' target='_top'>{$item->mapped('title')}</a></h4>
+	</div>
+	<div class='ipsEmbedded_content'>
+		<div class='ipsPhotoPanel ipsPhotoPanel_mini ipsClearfix ipsType_medium'>
+			{template="userPhoto" group="global" app="core" params="$item->author(), 'mini', NULL, '', FALSE"}
+			<div>
+				{{if $container = $item->containerWrapper()}}
+					<span class='ipsType_light ipsType_small'>
+						{lang="byline_nodate" sprintf="$item->author()->name"}
+						{lang="in"} {$container->_title}, {datetime="$item->mapped('date')"}
+					</span>
+				{{else}}
+					<span class='ipsType_light ipsType_small'>{lang="byline" sprintf="$item->author()->name"} {datetime="$item->mapped('date')"}</span>
+				{{endif}}
+				<div data-ipsTruncate data-ipsTruncate-size='1 lines' data-ipsTruncate-type='remove'>
+					{$item->truncated( TRUE )|raw}
+				</div>
+				<ul class='ipsList_inline ipsType_small ipsEmbedded_stats'>
+					{{if $item instanceof \IPS\Content\Ratings and $rating = $item->averageRating()}}
+						<li>{template="rating" app="core" params="'small', $rating, 5, $item->memberRating()" group="global"}</li>
+					{{elseif isset( $item::$reviewClass ) and $rating = $item->averageReviewRating()}}
+						<li>{template="rating" app="core" params="'small', $rating, \IPS\Settings::i()->reviews_rating_out_of, $item->memberReviewRating()" group="global"}</li>
+					{{endif}}
+					{{if $item::$commentClass}}
+						{{if $item::$firstCommentRequired}}
+							<li><i class='fa fa-comment'></i> {lang="replies_number" pluralize="$item->mapped('num_comments') - 1"}</li>
+						{{else}}
+							<li><i class='fa fa-comment'></i> {lang="num_comments" pluralize="$item->mapped('num_comments')"}</li>
+						{{endif}}
+					{{endif}}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{{if $image}}
+		<div style='background-image: url( "{expression="str_replace( array( '(', ')' ), array( '\(', '\)' ), $image->url )"}" );' class='ipsEmbedded_image'>
+			<a href='{$url}' target='_top'>
+				<img src='{$image->url}'>
+			</a>
+		</div>
+	{{endif}}
+</div>
